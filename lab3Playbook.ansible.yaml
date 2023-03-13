@@ -1,0 +1,33 @@
+- name: InstallFirewalld
+  hosts: ubuntu
+  gather_facts: false
+  tasks:
+    - name: "Install firewalld"
+      ansible.builtin.package:
+        name: firewalld
+        state: present
+    - name: "Enable and Start firewalld service"
+      ansible.builtin.service:
+        name: firewalld
+        state: started
+        enabled: true
+
+- name: Lab3Playbook
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: "Install vsftpd"
+      ansible.builtin.package:
+        name: vsftpd
+        state: present
+    - name: "Enable and Start vsftpd service"
+      ansible.builtin.service:
+        name: vsftpd
+        state: started
+        enabled: true
+    - name: "Enable firewall port for the vsftpd serivce"
+      ansible.builtin.firewalld:
+        service: ftp
+        state: enabled
+        immediate: true
+        permanent: true
